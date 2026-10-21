@@ -7,11 +7,11 @@ from aiogram.types import LabeledPrice, PreCheckoutQuery, InlineKeyboardMarkup, 
 
 # --- НАСТРОЙКИ ---
 TOKEN = "8704022676:AAF4SD3A6AhugVNCDSSMUp3PadVhDI1PEpQ" 
-BUNDLE_PRICE = 175 # Цена за бандл
+BUNDLE_PRICE = 175 # Цена за бандл (поменяй на 0 для теста)
 
-# Пути к файлам (архив теперь лежит прямо на рабочем столе)
-DEMO_DIR = "C:/Users/danya_dgvjdwc/Desktop/edits_with_watermark"
-BUNDLE_ARCHIVE = "C:/Users/danya_dgvjdwc/Desktop/bundle.zip" 
+# ПУТИ ТЕПЕРЬ ОТНОСИТЕЛЬНЫЕ (бот ищет файлы в своей папке)
+DEMO_DIR = "edits_with_watermark"
+BUNDLE_ARCHIVE = "bundle.zip" 
 
 # Список файлов для витрины
 EDITS = {
@@ -95,12 +95,10 @@ async def process_pre_checkout(pre_checkout_query: PreCheckoutQuery):
 async def process_successful_payment(message: types.Message):
     await message.answer("Оплата прошла! Лови свой бандл. 🎬")
     
-    # Проверяем, есть ли архив по указанному пути
     if os.path.exists(BUNDLE_ARCHIVE):
         archive = FSInputFile(BUNDLE_ARCHIVE)
         await message.answer_document(archive, caption="Твой архив с 7 єдитами. Наслаждайся.")
     else:
-        # Если архива нет, бот напишет путь, где он его искал
         await message.answer(f"Ошибка: архив не найден.\nИскал тут: {BUNDLE_ARCHIVE}\nПроверь путь.")
 
 # Запуск
